@@ -24,3 +24,10 @@ The entire codes for training pipeline will be added soon. This page provide inf
 git clone https://github.com/nubcico/XrayGen.git
 cd XrayGen
 python inference.py
+
+## References
+
+This work builds upon the following repositories:
+
+- [ControlNet](https://github.com/lllyasviel/ControlNet)
+- [stable-diffusion](https://github.com/CompVis/stable-diffusion/)
