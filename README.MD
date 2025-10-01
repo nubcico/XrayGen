@@ -23,3 +23,4 @@ The entire codes for training pipeline will be added soon. This page provide inf
 ```bash
 git clone https://github.com/nubcico/XrayGen.git
 cd XrayGen
+python inference.py
