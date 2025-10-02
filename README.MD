@@ -18,6 +18,8 @@ Image-to-Image: synthesis aligned with a reference CXR
 
 Trained on MIMIC-CXR, LADiff produces anatomically consistent and pathology-aware radiographs, and improves diagnostic classification when used for data augmentation. The framework enables realistic synthesis with precise control, supporting applications in augmentation, evaluation, and counterfactual analysis.
 
+![main figure](resources/model.png)
+
 ## Setup
 
 1. Clone the repository:
