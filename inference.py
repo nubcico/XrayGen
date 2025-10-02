@@ -2,6 +2,7 @@ import torch
 import numpy as np
 from PIL import Image
 from pathlib import Path
+import argparse
 
 from ldm.util import instantiate_from_config
 from ldm.models.diffusion.ddim import DDIMSampler
@@ -37,14 +38,12 @@ def generate_xray(model, mask, prompt, neg_prompt, steps, guidance):
         image_array = (255. * image_tensor[0].cpu().permute(1, 2, 0).numpy()).astype(np.uint8)
         return Image.fromarray(image_array)
 
-def main():
+def main(args):
     model_config_path = r"v1-inference.yaml"
     checkpoint_path = r"base_checkpoint.ckpt"
     feature_extractor_ckpt = r"FE_checkpoint.ckpt"
     
-    organ_mask_path = r"resources/anatomical_map.png"
-    bone_mask_path = r"resources/bone_mask.png"
-    output_path = Path(r"generated_xrays/generated_xray.png")
+    output_path = Path(args.output_dir) / "generated_xray.png"
 
     prompt = "normal chest xray, high resolution, diagnostic quality"
     neg_prompt = "blurry, low quality, artifact, noise, bad anatomy"
@@ -59,15 +58,19 @@ def main():
     model.to(DEVICE).eval()
     print("Model loaded successfully!")
 
-    print("Processing input masks...")
-    mask_tensor = utils.merge_and_preprocess_masks(
-        str(organ_mask_path), 
-        str(bone_mask_path), 
-        target_size=512
-    )
-    if mask_tensor is None:
-        print("Mask processing failed. Exiting.")
-        return
+    if args.no_control:
+        print("Generating without control, using a zero mask.")
+        mask_tensor = torch.zeros(1, 2, 512, 512, device=DEVICE)
+    else:
+        print("Processing input masks for controlled generation...")
+        mask_tensor = utils.merge_and_preprocess_masks(
+            args.anatomic_map, 
+            args.bone_map, 
+            target_size=512
+        )
+        if mask_tensor is None:
+            print("Mask processing failed. Exiting.")
+            return
 
     print(f"Generating image with {num_steps} steps...")
     try:
@@ -89,5 +92,25 @@ def main():
         if "out of memory" in str(e).lower() and torch.cuda.is_available():
             torch.cuda.empty_cache()
 
+def parse_arguments():
+    parser = argparse.ArgumentParser(description="Generate a chest X-ray using a diffusion model.")
+    
+    parser.add_argument('--output_dir', type=str, required=True, help="Directory to save the generated X-ray image.")
+    
+    control_group = parser.add_mutually_exclusive_group(required=True)
+    control_group.add_argument('--no_control', action='store_true', help="Generate without anatomical control (uses a zero mask).")
+    control_group.add_argument('--control', action='store_true', help="Generate with anatomical control maps.")
+    
+    parser.add_argument('--anatomic_map', type=str, help="Path to the anatomical map PNG file.")
+    parser.add_argument('--bone_map', type=str, help="Path to the bone map PNG file.")
+    
+    args = parser.parse_args()
+    
+    if args.control and (not args.anatomic_map or not args.bone_map):
+        parser.error("--anatomic_map and --bone_map are required when using --control.")
+        
+    return args
+
 if __name__ == "__main__":
-    main()
+    arguments = parse_arguments()
+    main(arguments)
