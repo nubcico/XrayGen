@@ -6,7 +6,9 @@ The entire codes for training pipeline will be added soon. This page provide inf
 
 ## Overview
 
-> **Abstract:** *We introduce Latent-Aligned Diffusion (LADiff), a controllable chest X-ray generation framework that integrates semantic and spatial conditioning. The model learns a structured latent space representing organ locations, lesion attributes, and appearance features, which are decoded into spatial maps to guide a diffusion generator. LADiff supports three controllable pipelines:
+> **Abstract:** *We introduce Latent-Aligned Diffusion (LADiff), a controllable chest X-ray generation framework that integrates semantic and spatial conditioning. The model learns a structured latent space representing organ locations, lesion attributes, and appearance features, which are decoded into spatial maps to guide a diffusion generator.*  
+
+LADiff supports three controllable pipelines:
 
 Text-to-Image: synthesis from descriptive clinical prompts
 
@@ -14,7 +16,7 @@ Coordinates-to-Image: generation from anatomical and pathological coordinates
 
 Image-to-Image: synthesis aligned with a reference CXR
 
-Trained on MIMIC-CXR, LADiff produces anatomically consistent and pathology-aware radiographs, and improves diagnostic classification when used for data augmentation. The framework enables realistic synthesis with precise control, supporting applications in augmentation, evaluation, and counterfactual analysis.* 
+Trained on MIMIC-CXR, LADiff produces anatomically consistent and pathology-aware radiographs, and improves diagnostic classification when used for data augmentation. The framework enables realistic synthesis with precise control, supporting applications in augmentation, evaluation, and counterfactual analysis.
 
 ## Setup
 
