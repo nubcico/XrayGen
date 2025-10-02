@@ -22,8 +22,8 @@ Install all the necessary Python packages using the requirements.txt file.
 pip install -r requirements.txt
 ```
 
-3. Controlled Generation (Using Maps)
-To create an X-ray based on specific anatomical and bone structures, use the --control flag. You will need to provide paths to your two map images.
+### Controlled Generation (Using Maps)
+3. To create an X-ray based on specific anatomical and bone structures, use the --control flag. You will need to provide paths to your two map images.
 
 ```
 python generate_xray.py --control \
@@ -32,8 +32,8 @@ python generate_xray.py --control \
                         --output_dir "generated_xrays"
 ```
 
-4. Uncontrolled Generation
-If you don't need to follow a specific structure, use the --no_control flag. The model will generate an CXR image without specific organ/bone structures.
+### Uncontrolled Generation
+4. If you don't need to follow a specific structure, use the --no_control flag. The model will generate an CXR image without specific organ/bone structures.
 
 ```
 python generate_xray.py --no_control \
