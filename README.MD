@@ -40,6 +40,14 @@ python generate_xray.py --no_control \
                         --output_dir "generated_xrays"
 ```
 
+### Inpainting pneumonia pathology
+To inpaint heathy xray with pneumonia, you need to provide paths to the xray, the binary mask defining the area to change (white is background, black is pathology area), and a directory for the output.
+```
+python inpaint_xray.py --xray_path "resources/original_xray_1.png" \
+                       --mask_path "resources/path_mask_1.png" \
+                       --output_dir "generated_xrays"
+```
+
 ## References
 
 This work builds upon the following repositories:
